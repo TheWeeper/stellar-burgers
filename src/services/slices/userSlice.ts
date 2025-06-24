@@ -14,7 +14,6 @@ import {
   forgotPasswordApi,
   resetPasswordApi
 } from '@api';
-import { transpileModule } from 'typescript';
 
 type TUserState = {
   user: TUser | null;

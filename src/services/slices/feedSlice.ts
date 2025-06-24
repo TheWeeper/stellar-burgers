@@ -1,11 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { TOrdersData } from '@utils-types';
+import { TOrdersData, TOrder } from '@utils-types';
 import { getFeedsApi } from '@api';
 import { TOrdersState } from './types';
 
-type TFeedState = TOrdersState & {
+type TFeedState = {
+  orders: TOrder[];
   total: number;
   totalToday: number;
+  loading: boolean;
+  error: string | null;
 };
 
 const initialState: TFeedState = {
@@ -16,7 +19,7 @@ const initialState: TFeedState = {
   error: null
 };
 
-export const fetchFeed = createAsyncThunk<TOrdersData>(
+export const fetchFeed = createAsyncThunk(
   'feed/fetchFeed',
   async () => await getFeedsApi()
 );
@@ -36,7 +39,7 @@ const feedSlice = createSlice({
         state.error = action.error.message || 'Ошибка при загрузке заказов';
       })
       .addCase(fetchFeed.fulfilled, (state, action) => {
-        state.orders = action.payload.orders;
+        state.orders = action.payload.orders.map((item) => ({ ...item }));
         state.total = action.payload.total;
         state.totalToday = action.payload.totalToday;
         state.loading = false;

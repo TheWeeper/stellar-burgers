@@ -14,8 +14,8 @@ const initialState: IngredientsState = {
   ingredientsError: null
 };
 
-const fetchIngredients = createAsyncThunk<TIngredient[]>(
-  'ingredients/getIngredients',
+export const fetchIngredients = createAsyncThunk(
+  'ingredients/fetchIngredients',
   async () => await getIngredientsApi()
 );
 
@@ -36,7 +36,7 @@ const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
         state.ingredientsRequest = false;
-        state.ingredients = action.payload;
+        state.ingredients = action.payload.map((item) => ({ ...item }));
       });
   }
 });
