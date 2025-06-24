@@ -12,11 +12,11 @@ const initialState: TConstructorState = {
   ingredients: []
 };
 
-const constructorSlice = createSlice({
+const burgerConstructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
-    removeIngredients: (state, action: PayloadAction<string>) => {
+    removeIngredient: (state, action: PayloadAction<string>) => {
       state.ingredients = state.ingredients.filter(
         (ingredient) => ingredient.id !== action.payload
       );
@@ -50,8 +50,8 @@ const constructorSlice = createSlice({
 
 export const {
   addIngredient,
-  removeIngredients,
+  removeIngredient,
   moveIngredient,
   clearConstructor
-} = constructorSlice.actions;
-export default constructorSlice.reducer;
+} = burgerConstructorSlice.actions;
+export default burgerConstructorSlice.reducer;
