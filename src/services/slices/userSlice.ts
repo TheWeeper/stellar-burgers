@@ -14,6 +14,7 @@ import {
   forgotPasswordApi,
   resetPasswordApi
 } from '@api';
+import { transpileModule } from 'typescript';
 
 type TUserState = {
   user: TUser | null;
@@ -35,7 +36,7 @@ const initialState: TUserState = {
   registerUserRequest: false
 };
 
-const getUser = createAsyncThunk('user/getUser', async () => {
+const fetchUser = createAsyncThunk('user/getUser', async () => {
   const response = await getUserApi();
   return response.user;
 });
@@ -47,5 +48,25 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<TUser | null>) => {
       state.user = action.payload;
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUser.pending, (state) => {
+        state.isAuthChecked = false;
+      })
+      .addCase(fetchUser.rejected, (state) => {
+        state.user = null;
+        state.isAuthChecked = true;
+        state.isAuthenticated = false;
+      })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.isAuthChecked = true;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      });
   }
 });
+
+export const { setUser } = userSlice.actions;
+
+export default userSlice.reducer;

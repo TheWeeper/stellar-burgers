@@ -54,10 +54,10 @@ const constructorSlice = createSlice({
 });
 
 export const {
-    addIngredient,
-    setBun,
-    removeIngredients,
-    moveIngredient,
-    clearConstructor
+  addIngredient,
+  setBun,
+  removeIngredients,
+  moveIngredient,
+  clearConstructor
 } = constructorSlice.actions;
 export default constructorSlice.reducer;

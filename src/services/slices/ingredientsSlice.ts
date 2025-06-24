@@ -4,14 +4,14 @@ import { getIngredientsApi } from '@api';
 
 type IngredientsState = {
   ingredients: TIngredient[];
-  loading: boolean;
-  error: string | null;
+  ingredientsRequest: boolean;
+  ingredientsError: string | null;
 };
 
 const initialState: IngredientsState = {
   ingredients: [],
-  loading: false,
-  error: null
+  ingredientsRequest: false,
+  ingredientsError: null
 };
 
 const fetchIngredients = createAsyncThunk<TIngredient[]>(
@@ -26,16 +26,16 @@ const ingredientsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.ingredientsRequest = true;
+        state.ingredientsError = null;
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-        action.error.message || 'Ошибка при загрузке ингредиентов';
+        state.ingredientsRequest = false;
+        state.ingredientsError =
+          action.error.message || 'Ошибка при загрузке ингредиентов';
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
-        state.loading = false;
+        state.ingredientsRequest = false;
         state.ingredients = action.payload;
       });
   }
