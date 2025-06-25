@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  PayloadAction,
-  createAsyncThunk,
-  buildCreateSlice
-} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import {
   getUserApi,
@@ -11,8 +6,6 @@ import {
   logoutApi,
   updateUserApi,
   registerUserApi,
-  forgotPasswordApi,
-  resetPasswordApi,
   TRegisterData,
   TLoginData
 } from '@api';
