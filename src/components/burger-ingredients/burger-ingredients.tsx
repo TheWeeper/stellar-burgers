@@ -11,6 +11,7 @@ export const BurgerIngredients: FC = () => {
   const { ingredients, ingredientsRequest, ingredientsError } = useSelector(
     (state) => state.ingredients
   );
+  console.log(useSelector((state) => state.user.user));
 
   useEffect(() => {
     if (!ingredientsRequest && !ingredientsError && ingredients.length === 0)

@@ -3,7 +3,8 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 
 import { useDispatch, useSelector } from '../../services/store';
-import { clearOrder } from '../../services/slices/orderSlice';
+import { clearOrder, createOrder } from '../../services/slices/orderSlice';
+import { clearConstructor } from '../../services/slices/constructorSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,14 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    const ingredientIds = [
+      constructorItems.bun._id,
+      ...constructorItems.ingredients.map((item) => item._id),
+      constructorItems.bun._id
+    ];
+    dispatch(createOrder(ingredientIds)).then((res) => {
+      if (createOrder.fulfilled.match(res)) dispatch(clearConstructor());
+    });
   };
   const closeOrderModal = () => {
     dispatch(clearOrder());

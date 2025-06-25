@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import {
   ConstructorPage,
@@ -16,12 +17,23 @@ import styles from './app.module.css';
 
 import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 import { ProtectedRoute } from '../protected-route/protected-route';
+import { UnauthRoute } from '../unauth-route/unauth-route';
+import { useDispatch } from '../../services/store';
+import { getCookie } from '../../utils/cookie';
+import { fetchUser, setAuthChecked } from '../../services/slices/userSlice';
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const backgroundLocation = location.state?.background;
+
+  useEffect(() => {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) dispatch(fetchUser());
+    else dispatch(setAuthChecked(true));
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
@@ -33,33 +45,33 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <UnauthRoute>
               <Login />
-            </ProtectedRoute>
+            </UnauthRoute>
           }
         />
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <UnauthRoute>
               <Register />
-            </ProtectedRoute>
+            </UnauthRoute>
           }
         />
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <UnauthRoute>
               <ForgotPassword />
-            </ProtectedRoute>
+            </UnauthRoute>
           }
         />
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <UnauthRoute>
               <ResetPassword />
-            </ProtectedRoute>
+            </UnauthRoute>
           }
         />
         <Route
