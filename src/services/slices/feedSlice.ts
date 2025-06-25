@@ -24,7 +24,7 @@ export const fetchFeed = createAsyncThunk(
   async () => await getFeedsApi()
 );
 
-const fetchOrders = createAsyncThunk<TOrder[]>(
+export const fetchOrders = createAsyncThunk<TOrder[]>(
   'orders/fetchOrders',
   async () => await getOrdersApi()
 );

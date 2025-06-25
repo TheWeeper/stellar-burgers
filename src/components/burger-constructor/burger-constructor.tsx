@@ -5,9 +5,13 @@ import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import { clearOrder, createOrder } from '../../services/slices/orderSlice';
 import { clearConstructor } from '../../services/slices/constructorSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   const constructorItems = useSelector((state) => state.burgerConstructor);
 
@@ -17,11 +21,17 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
     const ingredientIds = [
       constructorItems.bun._id,
       ...constructorItems.ingredients.map((item) => item._id),
       constructorItems.bun._id
     ];
+
     dispatch(createOrder(ingredientIds)).then((res) => {
       if (createOrder.fulfilled.match(res)) dispatch(clearConstructor());
     });
