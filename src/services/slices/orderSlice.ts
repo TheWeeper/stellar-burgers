@@ -4,12 +4,14 @@ import { TOrder } from '@utils-types';
 
 export type TOrderState = {
   order: TOrder | null;
+  orderModalData: TOrder | null;
   orderRequest: boolean;
   orderError: string | null;
 };
 
 const initialState: TOrderState = {
   order: null,
+  orderModalData: null,
   orderRequest: false,
   orderError: null
 };
