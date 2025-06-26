@@ -70,9 +70,6 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<TUser | null>) => {
-      state.user = action.payload;
-    },
     setAuthChecked: (state, action) => {
       state.isAuthChecked = action.payload;
     }
@@ -155,6 +152,6 @@ export const userSlice = createSlice({
   }
 });
 
-export const { setUser, setAuthChecked } = userSlice.actions;
+export const { setAuthChecked } = userSlice.actions;
 
 export default userSlice.reducer;
