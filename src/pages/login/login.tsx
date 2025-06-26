@@ -16,7 +16,7 @@ export const Login: FC = () => {
     try {
       e.preventDefault();
       await dispatch(loginUser({ email, password })).unwrap();
-      const from = location.state.from.pathname || '/';
+      const from = location.state?.from?.pathname || '/';
       navigate(from, { replace: true });
     } catch (err) {
       console.error('Ошибка при входе в аккаунт', err);

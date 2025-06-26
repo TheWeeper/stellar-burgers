@@ -6,23 +6,26 @@ export const Profile: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const [formValue, setFormValue] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
+    name: '',
+    email: '',
     password: ''
   });
 
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
-    }));
+    if (user)
+      setFormValue({
+        name: user.name,
+        email: user.email,
+        password: ''
+      });
   }, [user]);
 
+  if (!user) return null;
+
   const isFormChanged =
-    formValue.name !== user?.name ||
-    formValue.email !== user?.email ||
-    !!formValue.password;
+    formValue.name !== user.name ||
+    formValue.email !== user.email ||
+    formValue.password !== '';
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -37,8 +40,8 @@ export const Profile: FC = () => {
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user?.name || '',
-      email: user?.email || '',
+      name: user.name,
+      email: user.email,
       password: ''
     });
   };
