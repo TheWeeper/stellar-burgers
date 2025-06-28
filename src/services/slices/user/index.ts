@@ -9,7 +9,7 @@ import {
   TRegisterData,
   TLoginData
 } from '@api';
-import { deleteCookie, setCookie } from '../../utils/cookie';
+import { deleteCookie, setCookie } from '../../../utils/cookie';
 
 type TUserState = {
   user: TUser | null;

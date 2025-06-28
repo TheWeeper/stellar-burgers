@@ -20,7 +20,7 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import { UnauthRoute } from '../unauth-route/unauth-route';
 import { useDispatch } from '../../services/store';
 import { getCookie } from '../../utils/cookie';
-import { fetchUser, setAuthChecked } from '../../services/slices/userSlice';
+import { fetchUser, setAuthChecked } from '../../services/slices/user';
 
 const App = () => {
   const location = useLocation();
