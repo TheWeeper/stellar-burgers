@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from '../../services/store';
 import { updateUser } from '../../services/slices/user';
 export const Profile: FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
+  const { user, loading } = useSelector((state) => state.user);
   const [formValue, setFormValue] = useState({
     name: '',
     email: '',
@@ -60,6 +60,7 @@ export const Profile: FC = () => {
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
       handleInputChange={handleInputChange}
+      isUserLoading={loading}
     />
   );
 
