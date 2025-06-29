@@ -28,7 +28,9 @@ export const BurgerConstructor: FC = () => {
     }
     const ingredientIds = [
       constructorItems.bun._id,
-      ...constructorItems.ingredients.map((item) => item._id),
+      ...constructorItems.ingredients.map(
+        (item: TConstructorIngredient) => item._id
+      ),
       constructorItems.bun._id
     ];
 
