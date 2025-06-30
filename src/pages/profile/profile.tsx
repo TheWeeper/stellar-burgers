@@ -1,34 +1,40 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-
+import { useDispatch, useSelector } from '../../services/store';
+import { updateUser } from '../../services/slices/user';
 export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
-
+  const dispatch = useDispatch();
+  const { user, loading } = useSelector((state) => state.user);
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: '',
+    email: '',
     password: ''
   });
 
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
-    }));
+    if (user)
+      setFormValue({
+        name: user.name,
+        email: user.email,
+        password: ''
+      });
   }, [user]);
 
-  const isFormChanged =
-    formValue.name !== user?.name ||
-    formValue.email !== user?.email ||
-    !!formValue.password;
+  if (!user) return null;
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const isFormChanged =
+    formValue.name !== user.name ||
+    formValue.email !== user.email ||
+    formValue.password !== '';
+
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    try {
+      await dispatch(updateUser(formValue)).unwrap();
+      setFormValue((prev) => ({ ...prev, password: '' }));
+    } catch (err) {
+      console.error('Ошибка обновления профиля:', err);
+    }
   };
 
   const handleCancel = (e: SyntheticEvent) => {
@@ -54,6 +60,7 @@ export const Profile: FC = () => {
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
       handleInputChange={handleInputChange}
+      isUserLoading={loading}
     />
   );
 
